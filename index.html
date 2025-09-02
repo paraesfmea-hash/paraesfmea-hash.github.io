@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¿Qué tipo de Huayraleva eres?</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 90%;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><defs><pattern id="dots" patternUnits="userSpaceOnUse" width="20" height="20"><circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100%" height="100%" fill="url(%23dots)"/></svg>') repeat;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .mascot-container {
+            position: relative;
+            margin: 20px auto;
+            width: 120px;
+            height: 120px;
+            z-index: 2;
+        }
+
+        .mascot {
+            width: 100%;
+            height: 100%;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateX(0) translateY(0);
+            }
+            25% {
+                transform: translateX(10px) translateY(-10px);
+            }
+            50% {
+                transform: translateX(-5px) translateY(10px);
+            }
+            75% {
+                transform: translateX(-10px) translateY(-5px);
+            }
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        .quiz-container {
+            padding: 40px 30px;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .question {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .question h2 {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            color: #555;
+            line-height: 1.4;
+        }
+
+        .options {
+            display: grid;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .option {
+            padding: 15px 20px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            background: white;
+            font-size: 1rem;
+        }
+
+        .option:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .progress-bar {
+            background: #e0e0e0;
+            height: 6px;
+            margin: 0 30px 20px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        .result-container {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .result-title {
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .result-description {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        .restart-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .restart-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .question-counter {
+            text-align: center;
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            .question-text {
+                font-size: 1.1rem;
+            }
+            .quiz-container {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="mascot-container">
+                <svg class="mascot" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Cuerpo -->
+                    <ellipse cx="200" cy="320" rx="15" ry="8" fill="rgba(0,0,0,0.2)"/> <!-- Sombra -->
+                    
+                    <!-- Piernas -->
+                    <rect x="170" y="280" width="25" height="40" rx="12" fill="#2c2c2c"/>
+                    <rect x="205" y="280" width="25" height="40" rx="12" fill="#2c2c2c"/>
+                    
+                    <!-- Zapatos -->
+                    <ellipse cx="182" cy="325" rx="20" ry="10" fill="#8B4513"/>
+                    <ellipse cx="218" cy="325" rx="20" ry="10" fill="#8B4513"/>
+                    <ellipse cx="185" cy="322" rx="15" ry="7" fill="#A0522D"/>
+                    <ellipse cx="220" cy="322" rx="15" ry="7" fill="#A0522D"/>
+                    
+                    <!-- Cuerpo principal -->
+                    <rect x="160" y="200" width="80" height="90" rx="10" fill="#2c2c2c"/>
+                    
+                    <!-- Camisa -->
+                    <rect x="165" y="205" width="70" height="80" rx="8" fill="white"/>
+                    
+                    <!-- Corbata -->
+                    <rect x="195" y="205" width="10" height="50" fill="#2c2c2c"/>
+                    <polygon points="195,205 205,205 200,195" fill="#2c2c2c"/>
+                    
+                    <!-- Brazos -->
+                    <rect x="130" y="220" width="35" height="20" rx="10" fill="#2c2c2c"/>
+                    <rect x="235" y="220" width="35" height="20" rx="10" fill="#2c2c2c"/>
+                    
+                    <!-- Manos -->
+                    <circle cx="125" cy="230" r="15" fill="#FDBCB4"/>
+                    <circle cx="275" cy="230" r="15" fill="#FDBCB4"/>
+                    
+                    <!-- Cuello -->
+                    <rect x="190" y="190" width="20" height="20" fill="#FDBCB4"/>
+                    
+                    <!-- Cara -->
+                    <circle cx="200" cy="150" r="50" fill="#FDBCB4"/>
+                    
+                    <!-- Sombrero -->
+                    <ellipse cx="200" cy="110" rx="45" ry="12" fill="#2c2c2c"/>
+                    <rect x="175" y="100" width="50" height="25" rx="25" fill="#2c2c2c"/>
+                    <rect x="180" y="105" width="40" height="8" fill="#444"/>
+                    
+                    <!-- Ojos -->
+                    <circle cx="185" cy="140" r="12" fill="white"/>
+                    <circle cx="215" cy="140" r="12" fill="white"/>
+                    <circle cx="185" cy="140" r="8" fill="black"/>
+                    <circle cx="215" cy="140" r="8" fill="black"/>
+                    <circle cx="187" cy="137" r="2" fill="white"/>
+                    <circle cx="217" cy="137" r="2" fill="white"/>
+                    
+                    <!-- Anteojos -->
+                    <circle cx="185" cy="140" r="15" fill="none" stroke="black" stroke-width="3"/>
+                    <circle cx="215" cy="140" r="15" fill="none" stroke="black" stroke-width="3"/>
+                    <line x1="200" y1="140" x2="200" y2="140" stroke="black" stroke-width="3"/>
+                    <line x1="170" y1="135" x2="160" y2="130" stroke="black" stroke-width="2"/>
+                    <line x1="230" y1="135" x2="240" y2="130" stroke="black" stroke-width="2"/>
+                    
+                    <!-- Nariz -->
+                    <ellipse cx="200" cy="155" rx="8" ry="12" fill="#F4A460"/>
+                    
+                    <!-- Bigote -->
+                    <ellipse cx="200" cy="165" rx="15" ry="5" fill="#2c2c2c"/>
+                    
+                    <!-- Boca -->
+                    <path d="M 185 175 Q 200 185 215 175" stroke="#2c2c2c" stroke-width="2" fill="none"/>
+                    <path d="M 190 180 Q 200 185 210 180" stroke="white" stroke-width="1" fill="none"/>
+                    
+                    <!-- Orejas -->
+                    <ellipse cx="155" cy="150" rx="8" ry="12" fill="#FDBCB4"/>
+                    <ellipse cx="245" cy="150" rx="8" ry="12" fill="#FDBCB4"/>
+                </svg>
+            </div>
+            <h1>¿Qué tipo de Huayraleva eres?</h1>
+            <p class="subtitle">Basado en "El Huayralevismo" de Carlos Medinaceli</p>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+        </div>
+
+        <div class="quiz-container" id="quizContainer">
+            <!-- El contenido se cargará dinámicamente -->
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                text: "Ves un grupo de jóvenes haciendo rap en quechua en la plaza. ¿Qué haces?",
+                options: [
+                    { text: 'Dices que eso no es música de verdad', value: 'a' },
+                    { text: 'Te acercas a escuchar y preguntas sobre su propuesta', value: 'b' },
+                    { text: 'Los ignoras, pero te llama la atención si fueran extranjeros', value: 'c' },
+                    { text: 'Pasas de largo sin prestar atención', value: 'd' }
+                ]
+            },
+            {
+                text: "Tu amigo te invita a una exposición de arte contemporáneo boliviano. Al llegar...",
+                options: [
+                    { text: 'Comentas que prefieres las pinturas clásicas de siempre', value: 'a' },
+                    { text: 'Observas cada obra y preguntas por su significado', value: 'b' },
+                    { text: 'Dices que hubiera sido mejor ir a ver arte europeo', value: 'c' },
+                    { text: 'Te quedas poco tiempo y revisas tu celular', value: 'd' }
+                ]
+            },
+            {
+                text: "En tu trabajo te proponen un curso online. Tu primera reacción es:",
+                options: [
+                    { text: 'Preguntas si da certificado oficial para el CV', value: 'a' },
+                    { text: 'Te interesa el contenido y cómo te ayudará a crecer', value: 'b' },
+                    { text: 'Solo te interesa si es de una universidad famosa', value: 'c' },
+                    { text: 'Aceptas solo si es obligatorio', value: 'd' }
+                ]
+            },
+            {
+                text: "En el barrio hay problemas con la basura. En la reunión vecinal:",
+                options: [
+                    { text: 'Dices que antes no pasaba esto, que la juventud no respeta', value: 'a' },
+                    { text: 'Propones analizar las causas y buscar soluciones juntos', value: 'b' },
+                    { text: 'Sugieres copiar el sistema de recolección de otros países', value: 'c' },
+                    { text: 'Te quedas callado, total alguien más resolverá', value: 'd' }
+                ]
+            },
+            {
+                text: "Tu abuela te cuenta una leyenda o cuento tradicional mientras preparan juntos api. Tú:",
+                options: [
+                    { text: 'Le dices que esas historias son la pura verdad', value: 'a' },
+                    { text: 'Disfrutas la historia y preguntas por sus variantes', value: 'b' },
+                    { text: 'Piensas que son cosas del pasado, muy primitivas', value: 'c' },
+                    { text: 'Escuchas a medias mientras haces otras cosas', value: 'd' }
+                ]
+            },
+            {
+                text: "Tu jefe te pide cambiar un proceso que siempre se ha hecho igual. Tú:",
+                options: [
+                    { text: 'Le explicas que así siempre se ha trabajado aquí', value: 'a' },
+                    { text: 'Analizas si el cambio puede mejorar los resultados', value: 'b' },
+                    { text: 'Aceptas solo si es un método que usan empresas extranjeras', value: 'c' },
+                    { text: 'Haces el cambio sin pensar mucho en las consecuencias', value: 'd' }
+                ]
+            },
+            {
+                text: "Un compañero te dice que tu presentación podría mejorarse. Tu reacción:",
+                options: [
+                    { text: 'Te molestas porque siempre has presentado así', value: 'a' },
+                    { text: 'Le agradeces y le pides detalles específicos', value: 'b' },
+                    { text: 'Solo escuchas si tu compañero tiene títulos importantes', value: 'c' },
+                    { text: 'Dices "está bien" pero no cambias nada', value: 'd' }
+                ]
+            }
+        ];
+
+        const results = {
+            0: {
+                title: "Antihuayraleva",
+                description: "¡Excelente! No te dejas llevar por las apariencias ni presumes saber de todo. Reconoces con naturalidad cuando no sabes algo. Mantienes esta honestidad intelectual."
+            },
+            1: {
+                title: "Curioso Ingenuo",
+                description: "Tienes ganas de aprender, pero a veces repites lo que oyes sin profundizar. Crees que 'sonar inteligente' es suficiente.",
+                cure: [
+                    "Antes de repetir información, pregúntate: '¿Realmente entiendo esto?'",
+                    "Lee las fuentes originales, no solo resúmenes o comentarios",
+                    "Practica decir 'No sé' cuando realmente no sepas algo",
+                    "Busca contraargumentos a las ideas que te parecen obvias",
+                    "Dedica tiempo a profundizar en lugar de solo acumular datos"
+                ]
+            },
+            2: {
+                title: "Huayralevismo Cotidiano",
+                description: "Usas palabritas rebuscadas sin mucho sentido y opinas en casi todo, aunque no tengas mucha base. Es el nivel común en reuniones y aulas.",
+                cure: [
+                    "Simplifica tu lenguaje: si puedes decirlo simple, hazlo",
+                    "Cuenta hasta 3 antes de opinar sobre algo nuevo",
+                    "Pregunta más de lo que afirmas en conversaciones",
+                    "Lee sobre un tema por al menos una semana antes de opinar públicamente",
+                    "Practica escuchar completamente antes de responder"
+                ]
+            },
+            3: {
+                title: "Huayraleva Declarado",
+                description: "Amas citar autores (aunque no siempre los has leído) y disfrutas más de la pose intelectual que del contenido real. Puedes convencer a incautos con tu 'fachada culta'.",
+                cure: [
+                    "Solo cita libros que hayas leído completamente",
+                    "Admite públicamente cuando una cita viene de segunda mano",
+                    "Dedica más tiempo a entender que a memorizar frases célebres",
+                    "Busca debates con personas que sepan más que tú",
+                    "Practica explicar ideas complejas de forma sencilla"
+                ]
+            },
+            4: {
+                title: "Huayraleva Extremo",
+                description: "Eres experto en todo, maestro de nada. Hablas con total seguridad de temas que desconoces. Eres el 'doctor honoris causa en charlatanería'.",
+                cure: [
+                    "Elige UN tema y dedica 6 meses a estudiarlo seriamente",
+                    "Encuentra un mentor en algo que realmente no sepas",
+                    "Grábate hablando y analiza cuántas veces dices cosas sin fundamento",
+                    "Practica el 'no sé' al menos una vez por día en público",
+                    "Lee libros completos, no solo artículos o resúmenes"
+                ]
+            }
+        };
+
+        function calculateResult() {
+            let score = 0;
+            answers.forEach(answer => {
+                switch(answer) {
+                    case 'a': score += 2; break;
+                    case 'b': score += 0; break;
+                    case 'c': score += 2; break;
+                    case 'd': score += 1; break;
+                }
+            });
+
+            if (score <= 2) return results[0];
+            else if (score <= 5) return results[1];
+            else if (score <= 8) return results[2];
+            else if (score <= 11) return results[3];
+            else return results[4];
+        }
+
+        let currentQuestion = 0;
+        let answers = [];
+
+        function showQuestion() {
+            const container = document.getElementById('quizContainer');
+            const question = questions[currentQuestion];
+            
+            container.innerHTML = `
+                <div class="question-counter">Pregunta ${currentQuestion + 1} de ${questions.length}</div>
+                <div class="question">
+                    <div class="question-text">${question.text}</div>
+                </div>
+                <div class="options">
+                    ${question.options.map((option, index) => 
+                        `<div class="option" onclick="selectOption('${option.value}')">
+                            ${option.text}
+                        </div>`
+                    ).join('')}
+                </div>
+            `;
+
+            updateProgressBar();
+        }
+
+        function selectOption(value) {
+            answers.push(value);
+            
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                setTimeout(() => showQuestion(), 200);
+            } else {
+                setTimeout(() => showResult(), 200);
+            }
+        }
+
+        function updateProgressBar() {
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        function showResult() {
+            const result = calculateResult();
+            
+            const container = document.getElementById('quizContainer');
+            container.innerHTML = `
+                <div class="result-container">
+                    <div class="result-title">${result.title}</div>
+                    <div class="result-description">${result.description}</div>
+                    ${result.cure ? `
+                        <div style="margin-top: 30px; padding: 20px; background: #f8f9ff; border-radius: 10px; text-align: left;">
+                            <h3 style="color: #2c3e50; margin-bottom: 15px; text-align: center;">🌱 Cura para tu Huayralevismo:</h3>
+                            <ul style="list-style: none; padding: 0;">
+                                ${result.cure.map(item => `<li style="margin-bottom: 10px; padding: 8px; background: white; border-radius: 5px; border-left: 4px solid #667eea;">• ${item}</li>`).join('')}
+                            </ul>
+                        </div>
+                    ` : ''}
+                    <button class="restart-btn" onclick="restartQuiz()">Hacer el test de nuevo</button>
+                </div>
+            `;
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            answers = [];
+            showQuestion();
+        }
+
+        // Inicializar el quiz
+        showQuestion();
+    </script>
+</body>
+</html>
