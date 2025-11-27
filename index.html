@@ -9,10 +9,6 @@
         margin: 0;
         overflow: hidden;
       }
-
-      a-text {
-        font-weight: bold;
-      }
     </style>
   </head>
 
@@ -25,58 +21,64 @@
       device-orientation-permission-ui="enabled: false"
       embedded
     >
-      <a-assets></a-assets>
+      <a-assets>
+        <img id="s1" src="s1.jpg">
+        <img id="s2" src="s2.jpg">
+        <img id="s3" src="s3.jpg">
+        <img id="s4" src="s4.jpg">
+        <img id="s5" src="s5.jpg">
+      </a-assets>
 
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
       <!-- IMAGEN 1 -->
       <a-entity mindar-image-target="targetIndex: 0">
-        <a-text
-          value="Un aviador se estrella en el Sahara. Mientras repara su avión, aparece el Principito, quien le pide que le dibuje un cordero."
-          position="0 0 0"
+        <a-image
+          src="#s1"
           width="1.6"
-          color="yellow"
-        ></a-text>
+          height="1"
+          position="0 0 0"
+        ></a-image>
       </a-entity>
 
       <!-- IMAGEN 2 -->
       <a-entity mindar-image-target="targetIndex: 1">
-        <a-text
-          value="En su asteroide B-612, el Principito cuidaba una rosa orgullosa. Aunque la amaba, se sintió solo y decidió viajar."
-          position="0 0 0"
+        <a-image
+          src="#s2"
           width="1.6"
-          color="yellow"
-        ></a-text>
+          height="1"
+          position="0 0 0"
+        ></a-image>
       </a-entity>
 
       <!-- IMAGEN 3 -->
       <a-entity mindar-image-target="targetIndex: 2">
-        <a-text
-          value="Visitó seis asteroides: un rey, un vanidoso, un borracho, un hombre de negocios, un farolero y un geógrafo. Todos muy extraños."
-          position="0 0 0"
+        <a-image
+          src="#s3"
           width="1.6"
-          color="yellow"
-        ></a-text>
+          height="1"
+          position="0 0 0"
+        ></a-image>
       </a-entity>
 
       <!-- IMAGEN 4 -->
       <a-entity mindar-image-target="targetIndex: 3">
-        <a-text
-          value='En la Tierra conoció a una serpiente, un zorro y miles de rosas. El zorro le enseñó: "Lo esencial es invisible a los ojos".'
-          position="0 0 0"
+        <a-image
+          src="#s4"
           width="1.6"
-          color="yellow"
-        ></a-text>
+          height="1"
+          position="0 0 0"
+        ></a-image>
       </a-entity>
 
       <!-- IMAGEN 5 -->
       <a-entity mindar-image-target="targetIndex: 4">
-        <a-text
-          value="Un año después, decide volver con su rosa. El aviador arregla su avión, pero queda marcado para siempre por el Principito."
-          position="0 0 0"
+        <a-image
+          src="#s5"
           width="1.6"
-          color="yellow"
-        ></a-text>
+          height="1"
+          position="0 0 0"
+        ></a-image>
       </a-entity>
 
     </a-scene>
