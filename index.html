@@ -27,60 +27,65 @@
         <img id="s3" src="s3.jpg">
         <img id="s4" src="s4.jpg">
         <img id="s5" src="s5.jpg">
+
+        <audio id="audio1" src="audio1.wav" preload="auto"></audio>
+        <audio id="audio2" src="audio2.wav" preload="auto"></audio>
+        <audio id="audio3" src="audio3.wav" preload="auto"></audio>
+        <audio id="audio4" src="audio4.wav" preload="auto"></audio>
+        <audio id="audio5" src="audio5.wav" preload="auto"></audio>
       </a-assets>
 
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
       <!-- IMAGEN 1 -->
-      <a-entity mindar-image-target="targetIndex: 0">
-        <a-image
-          src="#s1"
-          width="1.6"
-          height="1"
-          position="0 0 0"
-        ></a-image>
+      <a-entity id="t1" mindar-image-target="targetIndex: 0">
+        <a-image src="#s1" width="1.6" height="1" position="0 0 0"></a-image>
       </a-entity>
 
       <!-- IMAGEN 2 -->
-      <a-entity mindar-image-target="targetIndex: 1">
-        <a-image
-          src="#s2"
-          width="1.6"
-          height="1"
-          position="0 0 0"
-        ></a-image>
+      <a-entity id="t2" mindar-image-target="targetIndex: 1">
+        <a-image src="#s2" width="1.6" height="1" position="0 0 0"></a-image>
       </a-entity>
 
       <!-- IMAGEN 3 -->
-      <a-entity mindar-image-target="targetIndex: 2">
-        <a-image
-          src="#s3"
-          width="1.6"
-          height="1"
-          position="0 0 0"
-        ></a-image>
+      <a-entity id="t3" mindar-image-target="targetIndex: 2">
+        <a-image src="#s3" width="1.6" height="1" position="0 0 0"></a-image>
       </a-entity>
 
       <!-- IMAGEN 4 -->
-      <a-entity mindar-image-target="targetIndex: 3">
-        <a-image
-          src="#s4"
-          width="1.6"
-          height="1"
-          position="0 0 0"
-        ></a-image>
+      <a-entity id="t4" mindar-image-target="targetIndex: 3">
+        <a-image src="#s4" width="1.6" height="1" position="0 0 0"></a-image>
       </a-entity>
 
       <!-- IMAGEN 5 -->
-      <a-entity mindar-image-target="targetIndex: 4">
-        <a-image
-          src="#s5"
-          width="1.6"
-          height="1"
-          position="0 0 0"
-        ></a-image>
+      <a-entity id="t5" mindar-image-target="targetIndex: 4">
+        <a-image src="#s5" width="1.6" height="1" position="0 0 0"></a-image>
       </a-entity>
 
     </a-scene>
+
+    <script>
+      // Función para vincular target con audio
+      function setupAudio(targetId, audioId) {
+        const target = document.querySelector(targetId);
+        const audio = document.querySelector(audioId);
+
+        target.addEventListener("targetFound", () => {
+          audio.currentTime = 0; // reinicia
+          audio.play();
+        });
+
+        target.addEventListener("targetLost", () => {
+          audio.pause();
+        });
+      }
+
+      setupAudio("#t1", "#audio1");
+      setupAudio("#t2", "#audio2");
+      setupAudio("#t3", "#audio3");
+      setupAudio("#t4", "#audio4");
+      setupAudio("#t5", "#audio5");
+    </script>
+
   </body>
 </html>
